@@ -6,6 +6,64 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Instituicao {
+  id         String     @id @default(uuid())
+  cnpj       String     @unique
+  nome       String
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  discentes  Discente[]
+}
+
+model Discente {
+  id            String       @id @default(uuid())
+  matricula     String       @unique
+  telefone      String       @unique
+  email         String       @unique
+  curso         String
+  created_at    DateTime     @default(now())
+  updated_at    DateTime     @updatedAt
+  Instituicao   Instituicao? @relation(fields: [instituicaoId], references: [id])
+  instituicaoId String       @unique
+  vagas         Vaga[]
+}
+
+model Vaga {
+  id                 String     @id @default(uuid())
+  descricao          String
+  perfilProfissional String
+  procedimento       String
+  created_at         DateTime   @default(now())
+  updated_at         DateTime   @updatedAt
+  discentes          Discente[]
+  empresa            Empresa?   @relation(fields: [empresaId], references: [id])
+  empresaId          String
+}
+
+model Empresa {
+  id           String         @id @default(uuid())
+  cnpj         String         @unique
+  nome         String
+  email        String         @unique
+  telefone     String
+  image        String
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @updatedAt
+  vagas        Vaga[]
+  geocalizacao Geocalizacao[]
+}
+
+model Geocalizacao {
+  id         String   @id @default(uuid())
+  type       String   @default("Point")
+  latitude   Float
+  longitude  Float
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  empresa    Empresa? @relation(fields: [empresaId], references: [id])
+  empresaId  String
 }
