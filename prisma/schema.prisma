@@ -27,6 +27,7 @@ model Discente {
   curso         String
   created_at    DateTime     @default(now())
   updated_at    DateTime     @updatedAt
+  avatar        String
   Instituicao   Instituicao? @relation(fields: [instituicaoId], references: [id])
   instituicaoId String       @unique
   vagas         Vaga[]
