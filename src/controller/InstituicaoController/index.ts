@@ -70,9 +70,29 @@ const update = async (req: Request, res: Response) => {
     }
 }
 
+const remove = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+
+        const instituicaoToUpdate = await Instituicao.findFirst({where: {id: id}});
+
+        if(!instituicaoToUpdate) {
+            return res.status(404).json(`Instituicao not found. Id: ${id}`);
+        }
+
+        await Instituicao.delete({where: {id: id}});
+
+        res.json(`Instituicao removed success! Id: ${id}`);
+    } catch (error: any) {
+        Logger.error(error.message);
+        res.status(500).send(error.message);
+    }
+}
+
 export default {
     create,
     findAll,
     findById,
-    update
+    update,
+    remove
 }
