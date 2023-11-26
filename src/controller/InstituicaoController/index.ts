@@ -50,8 +50,29 @@ const findById = async (req: Request, res: Response) => {
     }
 }
 
+const update = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+        const instituicao: IInstituicao = req.body;
+
+        const instituicaoToUpdate = await Instituicao.findFirst({where: {id: id}});
+
+        if(!instituicaoToUpdate) {
+            return res.status(404).send(`Instituicao not found. Id: ${id}`);
+        }
+
+        const instituicaoUpdated: IInstituicaoWithDates = await Instituicao.update({where: {id: id}, data: instituicao});
+
+        res.send(instituicaoUpdated);
+    } catch (error: any) {
+        Logger.error(error.message);
+        res.status(500).send(error.message);
+    }
+}
+
 export default {
     create,
     findAll,
-    findById
+    findById,
+    update
 }
