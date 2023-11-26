@@ -1,13 +1,12 @@
 import cors from "cors";
-import express, { Request, Response } from "express";
+import express from "express";
+import instituicaoRoutes from "../router/Instituicao";
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 
-app.get("/test", (req: Request, res: Response): Response<string> => {
-    return res.status(200).send("Hello World");
-})
+app.use("/api/v1/institutions", instituicaoRoutes);
 
 export default app;
