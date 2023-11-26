@@ -22,6 +22,18 @@ const create = async (req: Request, res: Response) => {
     }
 }
 
+const findAll = async (req: Request, res: Response) => {
+    try {
+        const instituicoes: IInstituicaoWithDates[] = await Instituicao.findMany();
+
+        res.status(200).send(instituicoes);
+    } catch (error: any) {
+        Logger.error(error.message);
+        res.status(500).send(error.message);
+    }
+}
+
 export default {
-    create
+    create,
+    findAll
 }
