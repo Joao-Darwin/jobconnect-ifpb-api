@@ -52,9 +52,7 @@ const update = async (req: Request, res: Response) => {
         const id = req.params.id;
         const instituicao: IInstituicao = req.body;
 
-        const instituicaoToUpdate = await Instituicao.findFirst({where: {id: id}});
-
-        if(!instituicaoToUpdate) {
+        if(await instituicaoNotExist(id)) {
             return res.status(404).json(`Instituicao not found. Id: ${id}`);
         }
 
@@ -67,13 +65,19 @@ const update = async (req: Request, res: Response) => {
     }
 }
 
+const instituicaoNotExist = async (id: string): Promise<boolean> => {
+    const instituicaoToUpdate = await Instituicao.findFirst({ where: { id: id } });
+
+    const exist = instituicaoToUpdate ? false : true;
+
+    return exist;
+}
+
 const remove = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
 
-        const instituicaoToUpdate = await Instituicao.findFirst({where: {id: id}});
-
-        if(!instituicaoToUpdate) {
+        if(!await instituicaoNotExist(id)) {
             return res.status(404).json(`Instituicao not found. Id: ${id}`);
         }
 
