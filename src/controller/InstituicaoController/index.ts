@@ -33,7 +33,25 @@ const findAll = async (req: Request, res: Response) => {
     }
 }
 
+const findById = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+
+        const instituicao: IInstituicaoWithDates | null = await Instituicao.findFirst({where: {id: id}});
+
+        if(instituicao) {
+            return res.status(200).send(instituicao);
+        }
+
+        return res.status(404).send(`Instituicao not found. Id: ${id}`);
+    } catch (error: any) {
+        Logger.error(error.message);
+        res.status(500).send(error.message);
+    }
+}
+
 export default {
     create,
-    findAll
+    findAll,
+    findById
 }
