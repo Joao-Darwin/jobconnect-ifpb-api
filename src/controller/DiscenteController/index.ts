@@ -27,7 +27,21 @@ const findAll = async (req: Request, res: Response) => {
     }
 }
 
+const findById = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+
+        const discente = await Discente.findFirst({where: {id: id}});
+
+        res.send(discente);
+    } catch (error: any) {
+        Logger.error(error.message);
+        res.status(500).json(error.message);
+    }
+}
+
 export default {
     create,
-    findAll
+    findAll,
+    findById
 }
