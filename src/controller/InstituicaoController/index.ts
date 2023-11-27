@@ -77,7 +77,7 @@ const remove = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
 
-        if(!await instituicaoNotExist(id)) {
+        if(await instituicaoNotExist(id)) {
             return res.status(404).json(`Instituicao not found. Id: ${id}`);
         }
 
