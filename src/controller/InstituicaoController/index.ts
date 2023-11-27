@@ -34,7 +34,7 @@ const findById = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
 
-        const instituicao: IInstituicaoWithDates | null = await Instituicao.findFirst({where: {id: id}});
+        const instituicao: IInstituicaoWithDates | null = await Instituicao.findFirst({where: {id: id}, include: {discentes: true}});
 
         if(instituicao) {
             return res.status(200).send(instituicao);
