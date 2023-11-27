@@ -29,7 +29,7 @@ model Discente {
   updated_at    DateTime     @updatedAt
   avatar        String
   Instituicao   Instituicao? @relation(fields: [instituicaoId], references: [id])
-  instituicaoId String       @unique
+  instituicaoId String
   vagas         Vaga[]
 }
 
