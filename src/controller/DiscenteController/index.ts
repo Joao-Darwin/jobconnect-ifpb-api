@@ -16,6 +16,18 @@ const create = async (req: Request, res: Response) => {
     }
 }
 
+const findAll = async (req: Request, res: Response) => {
+    try {
+        const discentes: IDiscente[] = await Discente.findMany();
+        
+        res.send(discentes);
+    } catch (error: any) {
+        Logger.error(error.message);
+        res.status(500).json(error.message);
+    }
+}
+
 export default {
-    create
+    create,
+    findAll
 }
