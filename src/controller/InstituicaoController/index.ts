@@ -3,6 +3,7 @@ import Logger from "../../../config/logger";
 import IInstituicao from "../../interfaces/Instituicao/IInstituicao";
 import IInstituicaoWithDates from "../../interfaces/Instituicao/IInstituicaoWithDates";
 import Instituicao from "../../model/Instituicao";
+import { createHashPassword } from "../../util/bcrypt";
 
 interface IInstituicaoWithPassword extends IInstituicao {
     password: string
@@ -12,7 +13,9 @@ const create = async (req: Request, res: Response) => {
     try {
         const instituicao: IInstituicaoWithPassword = req.body;
 
-        const instituicaoCreated: IInstituicaoWithDates = await Instituicao.create({data: instituicao});
+        instituicao.password = await createHashPassword(instituicao.password);
+
+        const instituicaoCreated: IInstituicaoWithDates = await Instituicao.create({ data: instituicao });
 
         res.status(200).send(instituicaoCreated);
     } catch (error: any) {
@@ -36,9 +39,9 @@ const findById = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
 
-        const instituicao: IInstituicaoWithDates | null = await Instituicao.findFirst({where: {id: id}, include: {discentes: true}});
+        const instituicao: IInstituicaoWithDates | null = await Instituicao.findFirst({ where: { id: id }, include: { discentes: true } });
 
-        if(instituicao) {
+        if (instituicao) {
             return res.status(200).send(instituicao);
         }
 
@@ -54,11 +57,11 @@ const update = async (req: Request, res: Response) => {
         const id = req.params.id;
         const instituicao: IInstituicao = req.body;
 
-        if(await instituicaoNotExist(id)) {
+        if (await instituicaoNotExist(id)) {
             return res.status(404).json(`Instituicao not found. Id: ${id}`);
         }
 
-        const instituicaoUpdated: IInstituicaoWithDates = await Instituicao.update({where: {id: id}, data: instituicao});
+        const instituicaoUpdated: IInstituicaoWithDates = await Instituicao.update({ where: { id: id }, data: instituicao });
 
         res.send(instituicaoUpdated);
     } catch (error: any) {
@@ -79,11 +82,11 @@ const remove = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
 
-        if(await instituicaoNotExist(id)) {
+        if (await instituicaoNotExist(id)) {
             return res.status(404).json(`Instituicao not found. Id: ${id}`);
         }
 
-        await Instituicao.delete({where: {id: id}});
+        await Instituicao.delete({ where: { id: id } });
 
         res.json(`Instituicao removed success! Id: ${id}`);
     } catch (error: any) {
