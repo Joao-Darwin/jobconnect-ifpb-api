@@ -3,9 +3,13 @@ import Logger from "../../../config/logger";
 import Discente from "../../model/Discente";
 import IDiscente from "../../interfaces/Discente/IDiscente";
 
+interface IDiscenteWithPassword extends IDiscente {
+    password: string;
+}
+
 const create = async (req: Request, res: Response) => {
     try {
-        const discente: IDiscente = req.body;
+        const discente: IDiscenteWithPassword = req.body;
 
         const discenteCreated: IDiscente = await Discente.create({data: discente});
 

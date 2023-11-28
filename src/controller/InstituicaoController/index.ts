@@ -1,16 +1,18 @@
 import { Request, Response } from "express";
 import Logger from "../../../config/logger";
 import IInstituicao from "../../interfaces/Instituicao/IInstituicao";
-import Instituicao from "../../model/Instituicao";
 import IInstituicaoWithDates from "../../interfaces/Instituicao/IInstituicaoWithDates";
+import Instituicao from "../../model/Instituicao";
+
+interface IInstituicaoWithPassword extends IInstituicao {
+    password: string
+}
 
 const create = async (req: Request, res: Response) => {
     try {
-        const instituicao: IInstituicao = req.body;
+        const instituicao: IInstituicaoWithPassword = req.body;
 
-        const instituicaoCreated: IInstituicaoWithDates = await Instituicao.create({
-            data: instituicao
-        });
+        const instituicaoCreated: IInstituicaoWithDates = await Instituicao.create({data: instituicao});
 
         res.status(200).send(instituicaoCreated);
     } catch (error: any) {
