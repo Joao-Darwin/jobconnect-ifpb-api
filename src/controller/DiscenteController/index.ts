@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Logger from "../../../config/logger";
 import IDiscente from "../../interfaces/Discente/IDiscente";
+import IDiscenteDTO from "../../interfaces/Discente/DTOs/IDiscenteDTO";
 import Discente from "../../model/Discente";
 import { createHashPassword } from "../../util/bcrypt";
 
@@ -25,7 +26,12 @@ const create = async (req: Request, res: Response) => {
 
 const findAll = async (req: Request, res: Response) => {
     try {
-        const discentes: IDiscente[] = await Discente.findMany();
+        const discentes: IDiscenteDTO[] = await Discente.findMany({select: {
+            id: true,
+            email: true,
+            matricula: true,
+            curso: true
+        }});
 
         res.send(discentes);
     } catch (error: any) {
