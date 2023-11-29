@@ -4,6 +4,7 @@ import IInstituicao from "../../interfaces/Instituicao/IInstituicao";
 import IInstituicaoWithDates from "../../interfaces/Instituicao/IInstituicaoWithDates";
 import Instituicao from "../../model/Instituicao";
 import { createHashPassword } from "../../util/bcrypt";
+import IInstituicaoDTO from "../../interfaces/Instituicao/DTOs/IInstituicaoDTO";
 
 interface IInstituicaoWithPassword extends IInstituicao {
     password: string
@@ -15,7 +16,16 @@ const create = async (req: Request, res: Response) => {
 
         instituicao.password = await createHashPassword(instituicao.password);
 
-        const instituicaoCreated: IInstituicaoWithDates = await Instituicao.create({ data: instituicao });
+        const instituicaoCreated: IInstituicaoWithDates = await Instituicao.create({
+            data: instituicao, select: {
+                id: true,
+                cnpj: true,
+                email: true,
+                nome: true,
+                created_at: true,
+                updated_at: true
+            }
+        });
 
         res.status(200).send(instituicaoCreated);
     } catch (error: any) {
@@ -26,7 +36,13 @@ const create = async (req: Request, res: Response) => {
 
 const findAll = async (req: Request, res: Response) => {
     try {
-        const instituicoes: IInstituicaoWithDates[] = await Instituicao.findMany();
+        const instituicoes: IInstituicaoDTO[] = await Instituicao.findMany({
+            select: {
+                id: true,
+                nome: true,
+                cnpj: true
+            }
+        });
 
         res.status(200).send(instituicoes);
     } catch (error: any) {
@@ -39,7 +55,24 @@ const findById = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
 
-        const instituicao: IInstituicaoWithDates | null = await Instituicao.findFirst({ where: { id: id }, include: { discentes: true } });
+        const instituicao: IInstituicaoWithDates | null = await Instituicao.findFirst({
+            where: { id: id }, 
+            select: {
+                id: true,
+                cnpj: true,
+                email: true,
+                nome: true,
+                created_at: true,
+                updated_at: true,
+                discentes: {
+                    select: {
+                        id: true,
+                        email: true,
+                        curso: true
+                    }
+                }
+            }
+        });
 
         if (instituicao) {
             return res.status(200).send(instituicao);
@@ -61,7 +94,18 @@ const update = async (req: Request, res: Response) => {
             return res.status(404).json(`Instituicao not found. Id: ${id}`);
         }
 
-        const instituicaoUpdated: IInstituicaoWithDates = await Instituicao.update({ where: { id: id }, data: instituicao });
+        const instituicaoUpdated: IInstituicaoWithDates = await Instituicao.update({ 
+            where: { id: id }, 
+            data: instituicao,
+            select: {
+                id: true,
+                cnpj: true,
+                email: true,
+                nome: true,
+                created_at: true,
+                updated_at: true,
+            }
+         });
 
         res.send(instituicaoUpdated);
     } catch (error: any) {
