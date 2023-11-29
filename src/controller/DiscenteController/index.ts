@@ -15,7 +15,17 @@ const create = async (req: Request, res: Response) => {
 
         discente.password = await createHashPassword(discente.password);
 
-        const discenteCreated: IDiscente = await Discente.create({ data: discente });
+        const discenteCreated: IDiscenteDTO = await Discente.create({
+            data: discente,
+            select: {
+                id: true,
+                matricula: true,
+                email: true,
+                curso: true,
+                created_at: true,
+                updated_at: true,
+            }
+        });
 
         res.send(discenteCreated);
     } catch (error: any) {
@@ -26,12 +36,14 @@ const create = async (req: Request, res: Response) => {
 
 const findAll = async (req: Request, res: Response) => {
     try {
-        const discentes: IDiscenteDTO[] = await Discente.findMany({select: {
-            id: true,
-            email: true,
-            matricula: true,
-            curso: true
-        }});
+        const discentes: IDiscenteDTO[] = await Discente.findMany({
+            select: {
+                id: true,
+                email: true,
+                matricula: true,
+                curso: true
+            }
+        });
 
         res.send(discentes);
     } catch (error: any) {
@@ -44,7 +56,24 @@ const findById = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
 
-        const discente = await Discente.findFirst({ where: { id: id } });
+        const discente = await Discente.findFirst({
+            where: { id: id },
+            select: {
+                id: true,
+                matricula: true,
+                telefone: true,
+                email: true,
+                curso: true,
+                avatar: true,
+                created_at: true,
+                updated_at: true,
+                Instituicao: {
+                    select: {
+                        id: true
+                    }
+                }
+            }
+        });
 
         res.send(discente);
     } catch (error: any) {
@@ -63,7 +92,25 @@ const update = async (req: Request, res: Response) => {
 
         const discenteToUpdate: IDiscente = req.body;
 
-        const discenteUpdated: IDiscente = await Discente.update({ where: { id: id }, data: discenteToUpdate });
+        const discenteUpdated = await Discente.update({
+            where: { id: id },
+            data: discenteToUpdate,
+            select: {
+                id: true,
+                matricula: true,
+                telefone: true,
+                email: true,
+                curso: true,
+                avatar: true,
+                created_at: true,
+                updated_at: true,
+                Instituicao: {
+                    select: {
+                        id: true
+                    }
+                }
+            }
+        });
 
         return res.send(discenteUpdated);
     } catch (error: any) {
