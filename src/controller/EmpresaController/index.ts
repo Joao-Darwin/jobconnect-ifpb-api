@@ -3,6 +3,7 @@ import Logger from "../../../config/logger";
 import IEmpresa from "../../interfaces/Empresa/IEmpresa";
 import Empresa from "../../model/Empresa";
 import { createHashPassword } from "../../util/bcrypt";
+import IEmpresaDTO from "../../interfaces/Empresa/DTOs/IEmpresaDTO";
 
 interface IEmpresaWithPassword extends IEmpresa {
     password: string
@@ -33,6 +34,30 @@ const create = async (req: Request, res: Response) => {
     }
 }
 
+const findAll = async (req: Request, res: Response) => {
+    try {
+        const empresas: IEmpresaDTO[] = await Empresa.findMany({
+            select: {
+                id: true,
+                cnpj: true,
+                nome: true,
+                email: true,
+                vagas: {
+                    select: {
+                        _count: true
+                    }
+                }
+            }
+        });
+
+        res.send(empresas);
+    } catch (error: any) {
+        Logger.error(error.message);
+        res.status(500).json(error.message);
+    }
+}
+
 export default {
-    create
+    create,
+    findAll
 }
