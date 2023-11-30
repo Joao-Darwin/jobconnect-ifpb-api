@@ -7,5 +7,6 @@ empresaRoutes.post("/save", EmpresaController.create);
 empresaRoutes.get("/", EmpresaController.findAll);
 empresaRoutes.get("/:id", EmpresaController.findById);
 empresaRoutes.put("/:id", EmpresaController.update);
+empresaRoutes.delete("/:id", EmpresaController.remove);
 
 export default empresaRoutes;

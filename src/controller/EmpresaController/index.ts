@@ -124,9 +124,33 @@ const companyNotExist = async (id: string): Promise<boolean> => {
     return exist;
 }
 
+const remove = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+
+        if (await companyNotExist(id)) {
+            return res.status(404).json(`Company not found. Id: ${id}`);
+        }
+
+        const wasDeleted = await Empresa.delete({
+            where: {
+                id: id
+            }
+        });
+
+        if(wasDeleted) {
+            return res.json(`Company deleted with success. Id: ${id}`);
+        }
+    } catch (error: any) {
+        Logger.error(error.message);
+        res.status(500).json(error.message);
+    }
+}
+
 export default {
     create,
     findAll,
     findById,
-    update
+    update,
+    remove
 }
