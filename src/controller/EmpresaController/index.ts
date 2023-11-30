@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import Logger from "../../../config/logger";
+import IEmpresaDTO from "../../interfaces/Empresa/DTOs/IEmpresaDTO";
 import IEmpresa from "../../interfaces/Empresa/IEmpresa";
 import Empresa from "../../model/Empresa";
 import { createHashPassword } from "../../util/bcrypt";
-import IEmpresaDTO from "../../interfaces/Empresa/DTOs/IEmpresaDTO";
 
 interface IEmpresaWithPassword extends IEmpresa {
     password: string
@@ -82,8 +82,50 @@ const findById = async (req: Request, res: Response) => {
     }
 }
 
+const update = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+
+        if (await companyNotExist(id)) {
+            return res.status(404).json(`Company not found. Id: ${id}`);
+        }
+
+        const companyToUpdate: IEmpresa = req.body;
+
+        const companyUpdated = await Empresa.update({
+            where: {
+                id: id
+            },
+            data: companyToUpdate,
+            select: {
+                id: true,
+                cnpj: true,
+                nome: true,
+                email: true,
+                telefone: true,
+                image: true,
+                geocalizacao: true
+            }
+        })
+
+        return res.send(companyUpdated);
+    } catch (error: any) {
+        Logger.error(error.message);
+        res.status(500).json(error.message);
+    }
+}
+
+const companyNotExist = async (id: string): Promise<boolean> => {
+    const companyToUpdate = await Empresa.findFirst({ where: { id: id } });
+
+    const exist = companyToUpdate ? false : true;
+
+    return exist;
+}
+
 export default {
     create,
     findAll,
-    findById
+    findById,
+    update
 }
