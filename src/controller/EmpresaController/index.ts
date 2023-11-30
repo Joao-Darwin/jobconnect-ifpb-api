@@ -57,7 +57,33 @@ const findAll = async (req: Request, res: Response) => {
     }
 }
 
+const findById = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+
+        const empresa = await Empresa.findFirst({
+            where: {
+                id: id
+            },
+            select: {
+                id: true,
+                cnpj: true,
+                email: true,
+                telefone: true,
+                image: true,
+                geocalizacao: true
+            }
+        })
+
+        res.send(empresa);
+    } catch (error: any) {
+        Logger.error(error.message);
+        res.status(500).json(error.message);
+    }
+}
+
 export default {
     create,
-    findAll
+    findAll,
+    findById
 }
