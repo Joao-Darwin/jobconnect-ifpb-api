@@ -68,6 +68,7 @@ const findById = async (req: Request, res: Response) => {
             select: {
                 id: true,
                 cnpj: true,
+                nome: true,
                 email: true,
                 telefone: true,
                 image: true,
