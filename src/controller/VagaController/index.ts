@@ -25,6 +25,30 @@ const create = async (req: Request, res: Response) => {
     }
 }
 
+const findAll = async (req: Request, res: Response) => {
+    try {
+        const vancancies = await Vagas.findMany({
+            select: {
+                id: true,
+                created_at: true,
+                updated_at: true,
+                empresa: {
+                    select: {
+                        nome: true,
+                        email: true
+                    }
+                }
+            }
+        });
+
+        res.send(vancancies);
+    } catch (error: any) {
+        Logger.error(error.message);
+        res.status(500).json(error.message);
+    }
+}
+
 export default {
-    create
+    create,
+    findAll
 }
