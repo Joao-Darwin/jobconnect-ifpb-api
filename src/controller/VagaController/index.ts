@@ -64,7 +64,7 @@ const findById = async (req: Request, res: Response) => {
                 updated_at: true,
                 discentes: {
                     select: {
-                        _count: true
+                        id: true
                     }
                 },
                 empresa: {
@@ -110,7 +110,7 @@ const update = async (req: Request, res: Response) => {
                 updated_at: true,
                 discentes: {
                     select: {
-                        _count: true
+                        id: true
                     }
                 },
                 empresa: {
@@ -161,10 +161,45 @@ const remove = async (req: Request, res: Response) => {
     }
 }
 
+const applyVaga = async (req: Request, res: Response) => {
+    try {
+        const vancancyId = req.params.id;
+
+        if (await vancancyNotExist(vancancyId)) {
+            return res.status(404).json({
+                messageError: `Vancancy not found. Id: ${vancancyId}`
+            });
+        }
+
+        const {discenteId} = req.body
+
+        await Vagas.update({
+            where: {
+                id: vancancyId
+            },
+            data: {
+                discentes: {
+                    connect: {
+                        id: discenteId
+                    }
+                }
+            }
+        });
+
+        return res.status(200).json({
+            message: `Apply on vaga with success! VancancyId: ${vancancyId}, StudentId: ${discenteId}`
+        })
+    } catch (error: any) {
+        Logger.error(error.message);
+        res.status(500).json(error.message);
+    }
+}
+
 export default {
     create,
     findAll,
     findById,
     update,
+    applyVaga,
     remove
 }
