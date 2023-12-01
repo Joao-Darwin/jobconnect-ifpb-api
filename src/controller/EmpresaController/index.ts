@@ -23,7 +23,9 @@ const create = async (req: Request, res: Response) => {
                 nome: true,
                 email: true,
                 telefone: true,
-                image: true
+                image: true,
+                latitude: true,
+                longitude: true
             }
         });
 
@@ -72,6 +74,13 @@ const findById = async (req: Request, res: Response) => {
                 email: true,
                 telefone: true,
                 image: true,
+                latitude: true,
+                longitude: true,
+                vagas: {
+                    select: {
+                        _count: true
+                    }
+                }
             }
         })
 
@@ -103,8 +112,7 @@ const update = async (req: Request, res: Response) => {
                 nome: true,
                 email: true,
                 telefone: true,
-                image: true,
-                geocalizacao: true
+                image: true
             }
         })
 
