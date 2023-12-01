@@ -88,8 +88,59 @@ const findById = async (req: Request, res: Response) => {
     }
 }
 
+const update = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+
+        if (await vancancyNotExist(id)) {
+            return res.status(404).json(`Vancancy not found. Id: ${id}`);
+        }
+
+        const vancancyToUpdate: IVaga = req.body;
+
+        const vancancyUpdated = await Vagas.update({
+            where: { id: id },
+            data: vancancyToUpdate,
+            select: {
+                id: true,
+                descricao: true,
+                perfilProfissional: true,
+                procedimento: true,
+                created_at: true,
+                updated_at: true,
+                discentes: {
+                    select: {
+                        _count: true
+                    }
+                },
+                empresa: {
+                    select: {
+                        nome: true,
+                        email: true
+                    }
+                }
+
+            }
+        });
+
+        return res.send(vancancyUpdated);
+    } catch (error: any) {
+        Logger.error(error.message);
+        res.status(500).json(error.message);
+    }
+}
+
+const vancancyNotExist = async (id: string): Promise<boolean> => {
+    const vancancyToUpdate = await Vagas.findFirst({ where: { id: id } });
+
+    const exist = vancancyToUpdate ? false : true;
+
+    return exist;
+}
+
 export default {
     create,
     findAll,
-    findById
+    findById,
+    update
 }
