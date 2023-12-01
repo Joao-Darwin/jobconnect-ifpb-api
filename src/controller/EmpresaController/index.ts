@@ -72,7 +72,6 @@ const findById = async (req: Request, res: Response) => {
                 email: true,
                 telefone: true,
                 image: true,
-                geocalizacao: true
             }
         })
 

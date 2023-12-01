@@ -56,19 +56,9 @@ model Empresa {
   password     String
   telefone     String
   image        String
+  latitude     Float
+  longitude    Float
   created_at   DateTime       @default(now())
   updated_at   DateTime       @updatedAt
   vagas        Vaga[]
-  geocalizacao Geocalizacao[]
-}
-
-model Geocalizacao {
-  id         String   @id @default(uuid())
-  type       String   @default("Point")
-  latitude   Float
-  longitude  Float
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  empresa    Empresa? @relation(fields: [empresaId], references: [id])
-  empresaId  String
 }

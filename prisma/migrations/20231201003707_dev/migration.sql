@@ -2,6 +2,8 @@
 CREATE TABLE "Instituicao" (
     "id" TEXT NOT NULL,
     "cnpj" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "nome" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -15,9 +17,11 @@ CREATE TABLE "Discente" (
     "matricula" TEXT NOT NULL,
     "telefone" TEXT NOT NULL,
     "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "curso" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
+    "avatar" TEXT NOT NULL,
     "instituicaoId" TEXT NOT NULL,
 
     CONSTRAINT "Discente_pkey" PRIMARY KEY ("id")
@@ -42,6 +46,7 @@ CREATE TABLE "Empresa" (
     "cnpj" TEXT NOT NULL,
     "nome" TEXT NOT NULL,
     "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "telefone" TEXT NOT NULL,
     "image" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -82,13 +87,13 @@ CREATE UNIQUE INDEX "Discente_telefone_key" ON "Discente"("telefone");
 CREATE UNIQUE INDEX "Discente_email_key" ON "Discente"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Discente_instituicaoId_key" ON "Discente"("instituicaoId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Empresa_cnpj_key" ON "Empresa"("cnpj");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Empresa_email_key" ON "Empresa"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Geocalizacao_empresaId_key" ON "Geocalizacao"("empresaId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_DiscenteToVaga_AB_unique" ON "_DiscenteToVaga"("A", "B");
