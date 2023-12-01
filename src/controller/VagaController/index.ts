@@ -138,9 +138,33 @@ const vancancyNotExist = async (id: string): Promise<boolean> => {
     return exist;
 }
 
+const remove = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+
+        if (await vancancyNotExist(id)) {
+            return res.status(404).json({
+                messageError: `Vancancy not found. Id: ${id}`
+            });
+        }
+
+        await Vagas.delete({
+            where: {id: id}
+        });
+
+        return res.status(200).json({
+            message: `Vancancy deleted with success! Id: ${id}`
+        });
+    } catch (error: any) {
+        Logger.error(error.message);
+        res.status(500).json(error.message);
+    }
+}
+
 export default {
     create,
     findAll,
     findById,
-    update
+    update,
+    remove
 }
