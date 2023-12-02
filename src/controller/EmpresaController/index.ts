@@ -91,6 +91,39 @@ const findById = async (req: Request, res: Response) => {
     }
 }
 
+const findVagasByEmpresa = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+
+        if (await companyNotExist(id)) {
+            return res.status(404).json({
+                messageError: `Company not found. Id: ${id}`
+            });
+        }
+
+        const vagasFromEmpresa = await Empresa.findFirst({
+            where: {
+                id: id
+            },
+            select: {
+                vagas: {
+                    select: {
+                        id: true,
+                        perfilProfissional: true,
+                        descricao: true,
+                        procedimento: true,
+                    }
+                }
+            }
+        })
+
+        res.send(vagasFromEmpresa);
+    } catch (error: any) {
+        Logger.error(error.message);
+        res.status(500).json(error.message);
+    }
+}
+
 const update = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
@@ -158,6 +191,7 @@ export default {
     create,
     findAll,
     findById,
+    findVagasByEmpresa,
     update,
     remove
 }
