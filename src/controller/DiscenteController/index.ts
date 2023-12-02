@@ -82,6 +82,43 @@ const findById = async (req: Request, res: Response) => {
     }
 }
 
+const findVagasByDiscente = async (req: Request, res: Response) => {
+    try {
+        const studentId = req.params.id;
+
+        if (await discenteNotExist(studentId)) {
+            return res.status(404).json(`Student not found. Id: ${studentId}`);
+        }
+
+        const vagas = await Discente.findFirst({
+            where: {
+                id: studentId
+            },
+            select: {
+                vagas: {
+                    select: {
+                        id: true,
+                        perfilProfissional: true,
+                        descricao: true,
+                        procedimento: true,
+                        empresa: {
+                            select: {
+                                id: true,
+                                nome: true
+                            }
+                        }
+                    }
+                }
+            }
+        })
+
+        res.send(vagas);
+    } catch (error: any) {
+        Logger.error(error.message);
+        res.status(500).json(error.message);
+    }
+}
+
 const update = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
@@ -148,6 +185,7 @@ export default {
     create,
     findAll,
     findById,
+    findVagasByDiscente,
     update,
     remove
 }
