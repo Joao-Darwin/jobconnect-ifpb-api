@@ -2,7 +2,7 @@
   "name": "projetojobconnectifpbapi",
   "version": "1.0.0",
   "description": "API para divulgação de estágios e empregos para egressos do Instituto Federal de Paraíba",
-  "main": "app.ts",
+  "main": "server.ts",
   "scripts": {
     "dev": "nodemon src/server.ts",
     "test": "jest"
