@@ -1,7 +1,9 @@
 import DiscenteController from "../controller/DiscenteController";
+import request from "supertest";
 
 describe("create", () => {
   it("should create a student", async() => {
+    
   });
 });
 
