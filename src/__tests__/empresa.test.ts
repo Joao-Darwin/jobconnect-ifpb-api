@@ -20,3 +20,15 @@ describe("get infos", () => {
   it("shoud get company infos", async() => {
   });
 });
+
+describe("GET /companies/", () => {
+  it("shold return 200 and all companies", async () => {
+    
+  })
+})
+
+describe("GET /companies/id/vancancies", () => {
+  it("shold return 200 and all vancancies from company", async () => {
+    
+  })
+})

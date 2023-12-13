@@ -1,4 +1,5 @@
 import VagaController from "../controller/VagaController";
+import { Request } from "supertest";
 
 describe("get all", () => {
   it("should get all registered vacancies", async() => {
@@ -22,3 +23,15 @@ describe("update", () => {
   it("should update the data of a vacancy", async() => {
   });
 });
+
+describe("POST /vancancies/save", () => {
+  it("shold return 201 and vancancie created", async () => {
+    
+  })
+})
+
+describe("PUT /vancancies/id/apply", () => {
+  it("shold return 200 and message with success", async () => {
+    
+  })
+})
