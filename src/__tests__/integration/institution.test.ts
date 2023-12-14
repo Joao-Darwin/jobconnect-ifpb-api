@@ -24,6 +24,23 @@ describe("POST /institutions/save", () => {
     })
 })
 
+describe("PUT /institutions/id", () => {
+    it("Should update a institution's data and return data", async () => {
+        const request = supertest(app);
+        const institutionToEdit = {
+            "cnpj": "10783898000509",
+            "nome": "IFPB - CZ"
+        }
+
+        const response = await request.put(`${baseUrl}/${idInstitution}`).send(institutionToEdit);
+
+        expect(response.body.id).not.toBeNull();
+        expect(response.statusCode).toBe(200);
+        expect(response.body.cnpj).toEqual("10783898000509");
+        expect(response.body.nome).toEqual("IFPB - CZ");
+    })
+})
+
 describe("DELETE /institutions/id", () => {
     it("Should remove a institution and return message", async () => {
         const request = supertest(app);

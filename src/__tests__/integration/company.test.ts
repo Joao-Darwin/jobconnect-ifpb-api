@@ -1,24 +1,40 @@
 import supertest from "supertest";
 import app from "../../app";
 
-describe("GET /companies/", () => {
-    it("should return 200 and all companies", async () => {
-      const request = supertest(app);
-  
-      const response = await request.get("/api/v1/companies/");
-  
-      expect(response.statusCode).toEqual(200);
-      expect(response.body).not.toBeNull();
+const baseUrl: string = "/api/v1/companies";
+let idCompany: string;
+
+describe("POST /companies/save", () => {
+    it("Should create a Company and return data", async () => {
+        const request = supertest(app);
+        const companyToCreate = {
+            "cnpj": "1170073000011",
+            "nome": "AM3 Solucoes",
+            "email": "contato@am3solucoes.com.br",
+            "password": "12345",
+            "telefone": "8335317368",
+            "image": "",
+            "latitude": -6.88717306489256,
+            "longitude": -38.550515715343685
+        }
+
+        const response = await request.post(`${baseUrl}/save`).send(companyToCreate);
+
+        expect(response.body.id).not.toBeNull();
+        expect(response.statusCode).toBe(201);
+        expect(response.body.email).toEqual("contato@am3solucoes.com.br");
+
+        idCompany = response.body.id;
     })
-  })
-  
-  describe("GET /companies/id/vancancies", () => {
-    it("should return 200 and all vancancies from company", async () => {
-      const request = supertest(app);
-  
-      const response = await request.get("/api/v1/companies/56b51a8f-9c14-4582-8d1e-e12704c5f5dd/vancancies");
-  
-      expect(response.statusCode).toEqual(200);
-      expect(response.body.vagas).not.toBeNull();
+})
+
+describe("DELETE /companies/id", () => {
+    it("Should remove a Company and return message", async () => {
+        const request = supertest(app);
+
+        const response = await request.delete(`${baseUrl}/${idCompany}`);
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body.message).not.toBeNull();
     })
-  })
+})
