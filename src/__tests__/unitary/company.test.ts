@@ -42,7 +42,7 @@ describe("update", () => {
 });
 
 describe("get all companies", () => {
-  it("should get company data", async() => {
+  it("should get all companies", async() => {
     const response = await supertest(app).get(`/api/v1/companies`);
     expect(response.statusCode).toEqual(200);
   });

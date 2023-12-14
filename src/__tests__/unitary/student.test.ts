@@ -41,7 +41,7 @@ describe("get data", () => {
 });
 
 describe("get all students", () => {
-  it("should get student data", async() => {
+  it("should get all student", async() => {
     const response = await supertest(app).get(`/api/v1/students`);
     expect(response.statusCode).toEqual(200);
   });
