@@ -1,7 +1,11 @@
 import DiscenteController from "../controller/DiscenteController";
 import IDiscente from "../interfaces/Discente/IDiscente";
 import IDiscenteDTO from "../interfaces/Discente/DTOs/IDiscenteDTO";
-import Discente from "../model/Discente/index.ts";
+import bcryptjs from "bcrypt";
+import request from "supertest";
+import discenteRoutes from "../router/Discente";
+
+jest.mock("bcrypt");
 
 describe("create", () => {
   const reqBody: IDiscente = {
@@ -20,8 +24,17 @@ describe("create", () => {
     curso: reqBody.curso,
   };
 
+  jest.mock("../model/Discente/index.ts", () => {
+    create: jest.fn().mockImplementation(arg => expRes)
+  });
+
+  jest.mock("bcrypt", () => {
+    genSalt: "asdadsaf";
+    hash: "asdasdasd";
+  });
 
   it("should create a student", async() => {
+    await request(discenteRoutes).post('/save').send(reqBody).expect(201).expect(expRes);
   });
 });
 
@@ -31,8 +44,7 @@ describe("get infos", () => {
 });
 
 describe("remove candidacy", () => {
-  it("should remove student candidacy in a vancancy", () => {
-    
+  it("should remove student candidacy in a vancancy", async() => {
   });
 });
 
