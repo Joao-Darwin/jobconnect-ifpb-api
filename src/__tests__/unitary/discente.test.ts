@@ -1,4 +1,4 @@
-import DiscenteController from "../controller/DiscenteController";
+import DiscenteController from "../../controller/DiscenteController";
 import request from "supertest";
 
 describe("create", () => {
