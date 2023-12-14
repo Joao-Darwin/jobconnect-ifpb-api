@@ -5,34 +5,31 @@ import bcryptjs from "bcrypt";
 import supertest from "supertest";
 import app from "../../app";
 
-jest.mock("bcrypt");
+jest.mock("bcrypt", () => ({
+  hash: jest.fn().mockImplementation(arg => "$2a$10$VMLj2QH/ilvDovqrqC8s4uybSYSaJxN64eyi8XHFwXG8aQstiJWl2")
+}));
+
+const reqBody: IDiscente = {
+  matricula: "string",
+  telefone: "string",
+  email: "string",
+  curso: "string",
+  avatar: "string",
+  instituicaoId: "string",
+};
+
+const expRes: IDiscenteDTO = {
+  id: "aodoasdo",
+  matricula: reqBody.matricula,
+  email: reqBody.email,
+  curso: reqBody.curso,
+};
+
+jest.mock("../../model/Discente/index.ts", () => ({
+  create: () => expRes,
+}));
 
 describe("create", () => {
-  const reqBody: IDiscente = {
-    matricula: "string",
-    telefone: "string",
-    email: "string",
-    curso: "string",
-    avatar: "string",
-    instituicaoId: "string",
-  };
-
-  const expRes: IDiscenteDTO = {
-    id: "aodoasdo",
-    matricula: reqBody.matricula,
-    email: reqBody.email,
-    curso: reqBody.curso,
-  };
-
-  jest.mock("../../model/Discente/index.ts", () => {
-    create: jest.fn().mockImplementation(arg => expRes)
-  });
-
-  // jest.mock("bcrypt", () => {
-  //   genSalt: jest.fn().mockImplementation(arg => "asdadsaf");
-  //   hash: jest.fn().mockImplementation(arg => "asdasdasd");
-  // });
-
   it("should create a student", async() => {
     const data = {
       matricula: "string",
@@ -40,7 +37,7 @@ describe("create", () => {
       email: "string",
       curso: "string",
       avatar: "string",
-      instituicaoId: "string",
+      instituicaoId: "asdassad",
       password: "sadasdasdsaasdsd"
     };
 
