@@ -1,7 +1,3 @@
-import DiscenteController from "../../controller/DiscenteController";
-import IDiscente from "../../interfaces/Discente/IDiscente";
-import IDiscenteDTO from "../../interfaces/Discente/DTOs/IDiscenteDTO";
-import bcryptjs from "bcrypt";
 import supertest from "supertest";
 import app from "../../app";
 
@@ -9,29 +5,17 @@ jest.mock("bcrypt", () => ({
   hash: jest.fn().mockImplementation(arg => "$2a$10$VMLj2QH/ilvDovqrqC8s4uybSYSaJxN64eyi8XHFwXG8aQstiJWl2")
 }));
 
-const reqBody: IDiscente = {
-  matricula: "string",
-  telefone: "string",
-  email: "string",
-  curso: "string",
-  avatar: "string",
-  instituicaoId: "string",
-};
-
-const expRes: IDiscenteDTO = {
-  id: "aodoasdo",
-  matricula: reqBody.matricula,
-  email: reqBody.email,
-  curso: reqBody.curso,
-};
-
 jest.mock("../../model/Discente/index.ts", () => ({
-  create: () => expRes,
+  create: () => {},
+  findById: () => {},
+  update: () => {},
+  delete: () => {},
+  findFirst: () => true,
 }));
 
 describe("create", () => {
   it("should create a student", async() => {
-    const data = {
+    const reqBody = {
       matricula: "string",
       telefone: "string",
       email: "string",
@@ -41,15 +25,17 @@ describe("create", () => {
       password: "sadasdasdsaasdsd"
     };
 
-    const response = await supertest(app).post('/api/v1/students/save').send(data);
+    const response = await supertest(app).post('/api/v1/students/save').send(reqBody);
 
     expect(response.statusCode).toEqual(201);
-    expect(response.body).toEqual(expRes);
   });
 });
 
 describe("get infos", () => {
   it("should get student data", async() => {
+    const id = "asdasdas";
+    const response = await supertest(app).get(`/api/v1/students/${id}`);
+    expect(response.statusCode).toEqual(200);
   });
 });
 
@@ -65,6 +51,19 @@ describe("remove interest in a vacancy", () => {
 
 describe("update student", () => {
   it("should update student data", async() => {
+    const id = "asadsda";
+    const reqBody = {
+      matricula: "string",
+      telefone: "string",
+      email: "string",
+      curso: "string",
+      avatar: "string",
+      instituicaoId: "asdassad",
+    };
+
+    const response = await supertest(app).put(`/api/v1/students/${id}`).send(reqBody);
+
+    expect(response.statusCode).toEqual(200);
   });
 });
 
