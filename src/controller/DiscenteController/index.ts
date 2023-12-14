@@ -27,7 +27,7 @@ const create = async (req: Request, res: Response) => {
             }
         });
 
-        res.send(discenteCreated);
+        res.status(201).send(discenteCreated);
     } catch (error: any) {
         Logger.error(error.message);
         res.status(500).json(error.message);
