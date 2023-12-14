@@ -29,7 +29,7 @@ const create = async (req: Request, res: Response) => {
             }
         });
 
-        res.send(empresaCreated);
+        res.status(201).send(empresaCreated);
     } catch (error: any) {
         Logger.error(error.message);
         res.status(500).json(error.message);

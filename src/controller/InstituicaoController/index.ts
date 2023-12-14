@@ -27,7 +27,7 @@ const create = async (req: Request, res: Response) => {
             }
         });
 
-        res.status(200).send(instituicaoCreated);
+        res.status(201).send(instituicaoCreated);
     } catch (error: any) {
         Logger.error(error.message);
         res.status(500).json(error.message);
