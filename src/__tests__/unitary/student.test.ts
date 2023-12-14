@@ -2,8 +2,8 @@ import DiscenteController from "../../controller/DiscenteController";
 import IDiscente from "../../interfaces/Discente/IDiscente";
 import IDiscenteDTO from "../../interfaces/Discente/DTOs/IDiscenteDTO";
 import bcryptjs from "bcrypt";
-import request from "supertest";
-import discenteRoutes from "../../router/Discente";
+import supertest from "supertest";
+import app from "../../app";
 
 jest.mock("bcrypt");
 
@@ -24,17 +24,28 @@ describe("create", () => {
     curso: reqBody.curso,
   };
 
-  jest.mock("../model/Discente/index.ts", () => {
+  jest.mock("../../model/Discente/index.ts", () => {
     create: jest.fn().mockImplementation(arg => expRes)
   });
 
-  jest.mock("bcrypt", () => {
-    genSalt: "asdadsaf";
-    hash: "asdasdasd";
-  });
+  // jest.mock("bcrypt", () => {
+  //   genSalt: jest.fn().mockImplementation(arg => "asdadsaf");
+  //   hash: jest.fn().mockImplementation(arg => "asdasdasd");
+  // });
 
   it("should create a student", async() => {
-    const response = await request(discenteRoutes).post('/save').send(reqBody);
+    const data = {
+      matricula: "string",
+      telefone: "string",
+      email: "string",
+      curso: "string",
+      avatar: "string",
+      instituicaoId: "string",
+      password: "sadasdasdsaasdsd"
+    };
+
+    const response = await supertest(app).post('/api/v1/students/save').send(data);
+
     expect(response.statusCode).toEqual(201);
     expect(response.body).toEqual(expRes);
   });
