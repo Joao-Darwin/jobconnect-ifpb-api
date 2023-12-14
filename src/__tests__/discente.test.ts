@@ -1,9 +1,27 @@
 import DiscenteController from "../controller/DiscenteController";
-import request from "supertest";
+import IDiscente from "../interfaces/Discente/IDiscente";
+import IDiscenteDTO from "../interfaces/Discente/DTOs/IDiscenteDTO";
+import Discente from "../model/Discente/index.ts";
 
 describe("create", () => {
+  const reqBody: IDiscente = {
+    matricula: "string",
+    telefone: "string",
+    email: "string",
+    curso: "string",
+    avatar: "string",
+    instituicaoId: "string",
+  };
+
+  const expRes: IDiscenteDTO = {
+    id: "aodoasdo",
+    matricula: reqBody.matricula,
+    email: reqBody.email,
+    curso: reqBody.curso,
+  };
+
+
   it("should create a student", async() => {
-    
   });
 });
 
