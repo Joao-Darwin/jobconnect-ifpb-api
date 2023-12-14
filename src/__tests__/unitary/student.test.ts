@@ -1,9 +1,9 @@
-import DiscenteController from "../controller/DiscenteController";
-import IDiscente from "../interfaces/Discente/IDiscente";
-import IDiscenteDTO from "../interfaces/Discente/DTOs/IDiscenteDTO";
+import DiscenteController from "../../controller/DiscenteController";
+import IDiscente from "../../interfaces/Discente/IDiscente";
+import IDiscenteDTO from "../../interfaces/Discente/DTOs/IDiscenteDTO";
 import bcryptjs from "bcrypt";
 import request from "supertest";
-import discenteRoutes from "../router/Discente";
+import discenteRoutes from "../../router/Discente";
 
 jest.mock("bcrypt");
 
@@ -34,7 +34,9 @@ describe("create", () => {
   });
 
   it("should create a student", async() => {
-    await request(discenteRoutes).post('/save').send(reqBody).expect(201).expect(expRes);
+    const response = await request(discenteRoutes).post('/save').send(reqBody);
+    expect(response.statusCode).toEqual(201);
+    expect(response.body).toEqual(expRes);
   });
 });
 
