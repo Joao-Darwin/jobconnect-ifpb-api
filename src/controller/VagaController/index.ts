@@ -18,7 +18,7 @@ const create = async (req: Request, res: Response) => {
             }
         })
 
-        res.send(vagaCreated);
+        res.status(201).send(vagaCreated);
     } catch (error: any) {
         Logger.error(error.message);
         res.status(500).json(error.message);

@@ -30,7 +30,7 @@ describe("get infos", () => {
   });
 });
 
-describe("remove candidacy", async() => {
+describe("remove candidacy", () => {
   it("should remove student candidacy in a vancancy", () => {
     
   });
