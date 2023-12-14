@@ -179,8 +179,9 @@ const remove = async (req: Request, res: Response) => {
         });
 
         if(wasDeleted) {
-            return res.json(`Company deleted with success. Id: ${id}`);
+            return res.status(200).json(`Company deleted with success. Id: ${id}`);
         }
+        return res.status(500).json("there was an error trying to remove the company");
     } catch (error: any) {
         Logger.error(error.message);
         res.status(500).json(error.message);
