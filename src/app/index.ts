@@ -10,9 +10,11 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use("/api/v1/institutions", instituicaoRoutes);
-app.use("/api/v1/students", discenteRoutes);
-app.use("/api/v1/companies", empresaRoutes);
-app.use("/api/v1/vancancies", vagaRoutes);
+const basePathUrlApiV1 = "/api/v1";
+
+app.use(`${basePathUrlApiV1}/institutions`, instituicaoRoutes);
+app.use(`${basePathUrlApiV1}/students`, discenteRoutes);
+app.use(`${basePathUrlApiV1}/companies`, empresaRoutes);
+app.use(`${basePathUrlApiV1}/vancancies`, vagaRoutes);
 
 export default app;
