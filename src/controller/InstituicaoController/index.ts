@@ -78,7 +78,9 @@ const findById = async (req: Request, res: Response) => {
             return res.status(200).send(instituicao);
         }
 
-        return res.status(404).json(`Instituicao not found. Id: ${id}`);
+        return res.status(404).json({
+            "message": `Instituicao not found. Id: ${id}`
+        });
     } catch (error: any) {
         Logger.error(error.message);
         res.status(500).json(error.message);
@@ -91,7 +93,9 @@ const update = async (req: Request, res: Response) => {
         const instituicao: IInstituicao = req.body;
 
         if (await instituicaoNotExist(id)) {
-            return res.status(404).json(`Instituicao not found. Id: ${id}`);
+            return res.status(400).json({
+                "message": `Instituicao not found. Id: ${id}`
+            });
         }
 
         const instituicaoUpdated: IInstituicaoWithDates = await Instituicao.update({ 
@@ -127,12 +131,16 @@ const remove = async (req: Request, res: Response) => {
         const id = req.params.id;
 
         if (await instituicaoNotExist(id)) {
-            return res.status(404).json(`Instituicao not found. Id: ${id}`);
+            return res.status(400).json({
+                "message": `Instituicao not found. Id: ${id}`
+            });
         }
 
         await Instituicao.delete({ where: { id: id } });
 
-        res.json(`Instituicao removed success! Id: ${id}`);
+        res.json({
+            "message": `Instituicao removed success! Id: ${id}`
+        });
     } catch (error: any) {
         Logger.error(error.message);
         res.status(500).json(error.message);
