@@ -87,7 +87,9 @@ const findVagasByDiscente = async (req: Request, res: Response) => {
         const studentId = req.params.id;
 
         if (await discenteNotExist(studentId)) {
-            return res.status(404).json(`Student not found. Id: ${studentId}`);
+            return res.status(404).json({
+                "message": `Student not found. Id: ${studentId}`
+            });
         }
 
         const vagas = await Discente.findFirst({
@@ -124,7 +126,9 @@ const update = async (req: Request, res: Response) => {
         const id = req.params.id;
 
         if (await discenteNotExist(id)) {
-            return res.status(404).json(`Student not found. Id: ${id}`);
+            return res.status(400).json({
+                "message": `Student not found. Id: ${id}`
+            });
         }
 
         const discenteToUpdate: IDiscente = req.body;
@@ -169,12 +173,16 @@ const remove = async (req: Request, res: Response) => {
         const id = req.params.id;
 
         if (await discenteNotExist(id)) {
-            return res.status(404).json(`Student not found. Id: ${id}`);
+            return res.status(400).json({
+                "message": `Student not found. Id: ${id}`
+            });
         }
 
         await Discente.delete({ where: { id: id } });
 
-        res.json(`Student removed success! Id: ${id}`);
+        res.json({
+            "message": `Student removed success! Id: ${id}`
+        });
     } catch (error: any) {
         Logger.error(error.message);
         res.status(500).json(error.message);
