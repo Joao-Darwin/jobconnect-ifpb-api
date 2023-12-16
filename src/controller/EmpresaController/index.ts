@@ -84,7 +84,13 @@ const findById = async (req: Request, res: Response) => {
             }
         })
 
-        res.send(empresa);
+        if (empresa) {
+            return res.send(empresa);
+        }
+
+        return res.status(404).send({
+            "message": `Company not found. Id: ${id}`
+        });
     } catch (error: any) {
         Logger.error(error.message);
         res.status(500).json(error.message);
@@ -129,7 +135,9 @@ const update = async (req: Request, res: Response) => {
         const id = req.params.id;
 
         if (await companyNotExist(id)) {
-            return res.status(404).json(`Company not found. Id: ${id}`);
+            return res.status(400).json({
+                "message": `Company not found. Id: ${id}`
+            });
         }
 
         const companyToUpdate: IEmpresa = req.body;
@@ -169,7 +177,9 @@ const remove = async (req: Request, res: Response) => {
         const id = req.params.id;
 
         if (await companyNotExist(id)) {
-            return res.status(404).json(`Company not found. Id: ${id}`);
+            return res.status(400).json({
+                "message": `Company not found. Id: ${id}`
+            });
         }
 
         const wasDeleted = await Empresa.delete({
