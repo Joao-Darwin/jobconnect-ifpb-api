@@ -163,9 +163,7 @@ const update = async (req: Request, res: Response) => {
 const discenteNotExist = async (id: string): Promise<boolean> => {
     const discenteToUpdate = await Discente.findFirst({ where: { id: id } });
 
-    const exist = discenteToUpdate ? false : true;
-
-    return exist;
+    return discenteToUpdate ? false : true;
 }
 
 const remove = async (req: Request, res: Response) => {
