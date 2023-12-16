@@ -167,9 +167,7 @@ const update = async (req: Request, res: Response) => {
 const companyNotExist = async (id: string): Promise<boolean> => {
     const companyToUpdate = await Empresa.findFirst({ where: { id: id } });
 
-    const exist = companyToUpdate ? false : true;
-
-    return exist;
+    return companyToUpdate ? false : true;
 }
 
 const remove = async (req: Request, res: Response) => {
