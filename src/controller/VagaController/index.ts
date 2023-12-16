@@ -138,9 +138,7 @@ const update = async (req: Request, res: Response) => {
 const vancancyNotExist = async (id: string): Promise<boolean> => {
     const vancancyToUpdate = await Vagas.findFirst({ where: { id: id } });
 
-    const exist = vancancyToUpdate ? false : true;
-
-    return exist;
+    return vancancyToUpdate ? false : true;
 }
 
 const remove = async (req: Request, res: Response) => {
