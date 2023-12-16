@@ -121,9 +121,7 @@ const update = async (req: Request, res: Response) => {
 const instituicaoNotExist = async (id: string): Promise<boolean> => {
     const instituicaoToUpdate = await Instituicao.findFirst({ where: { id: id } });
 
-    const exist = instituicaoToUpdate ? false : true;
-
-    return exist;
+    return instituicaoToUpdate ? false : true;
 }
 
 const remove = async (req: Request, res: Response) => {
