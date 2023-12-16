@@ -58,3 +58,27 @@ Passo 05:
 ```
 npm run dev
 ```
+## Run Tests
+Gerais:
+```
+npm run test
+```
+Unitários:
+```
+npm run testUnity
+```
+Integração:
+```
+npm run testIntegration
+```
+
+## Autores
+### João Darwin
+
+<a href="https://www.linkedin.com/in/joao-darwin/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" style="border-radius: 30px"></a>
+<a href="https://github.com/Joao-Darwin" target="_blank"><img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white" style="border-radius: 30px"></a>
+
+### João Pedro
+
+<a href="https://www.linkedin.com/in/jo%C3%A3o-pedro-oliveira-65559b201/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" style="border-radius: 30px"></a>
+<a href="https://github.com/JoaoPedroli" target="_blank"><img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white" style="border-radius: 30px"></a>
