@@ -1,13 +1,18 @@
 import { Router } from "express";
+import multer from "multer";
+import { storage } from "../../config/upload";
 import DiscenteController from "../../controller/DiscenteController";
+import { AuthMiddleware } from "../../middleware/auth";
 
 const discenteRoutes = Router();
 
-discenteRoutes.post("/save", DiscenteController.create);
-discenteRoutes.get("/", DiscenteController.findAll);
-discenteRoutes.get("/:id", DiscenteController.findById);
-discenteRoutes.get("/:id/vancancies", DiscenteController.findVagasByDiscente);
-discenteRoutes.put("/:id", DiscenteController.update);
-discenteRoutes.delete("/:id", DiscenteController.remove);
+const upload = multer({ storage });
+
+discenteRoutes.post("/save", upload.single("avatar"), DiscenteController.create);
+discenteRoutes.get("/", AuthMiddleware, DiscenteController.findAll);
+discenteRoutes.get("/:id", AuthMiddleware, DiscenteController.findById);
+discenteRoutes.get("/:id/vancancies", AuthMiddleware, DiscenteController.findVagasByDiscente);
+discenteRoutes.put("/:id", AuthMiddleware, DiscenteController.update);
+discenteRoutes.delete("/:id", AuthMiddleware, DiscenteController.remove);
 
 export default discenteRoutes;

@@ -51,6 +51,7 @@ const findAll = async (req: Request, res: Response) => {
 const findById = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
+
         const vancancy = await Vagas.findFirst({
             where: {
                 id: id
@@ -81,7 +82,9 @@ const findById = async (req: Request, res: Response) => {
            return res.send(vancancy);
         }
 
-        return res.status(404).json(`Vaga dont foud. Id: ${id}`);
+        return res.status(404).json({
+            "message": `Vaga dont foud. Id: ${id}`
+        });
     } catch (error: any) {
         Logger.error(error.message);
         res.status(500).json(error.message);
@@ -93,7 +96,9 @@ const update = async (req: Request, res: Response) => {
         const id = req.params.id;
 
         if (await vancancyNotExist(id)) {
-            return res.status(404).json(`Vancancy not found. Id: ${id}`);
+            return res.status(400).json({
+                "message": `Vancancy not found. Id: ${id}`
+            });
         }
 
         const vancancyToUpdate: IVaga = req.body;
@@ -133,9 +138,7 @@ const update = async (req: Request, res: Response) => {
 const vancancyNotExist = async (id: string): Promise<boolean> => {
     const vancancyToUpdate = await Vagas.findFirst({ where: { id: id } });
 
-    const exist = vancancyToUpdate ? false : true;
-
-    return exist;
+    return vancancyToUpdate ? false : true;
 }
 
 const remove = async (req: Request, res: Response) => {
@@ -143,8 +146,8 @@ const remove = async (req: Request, res: Response) => {
         const id = req.params.id;
 
         if (await vancancyNotExist(id)) {
-            return res.status(404).json({
-                messageError: `Vancancy not found. Id: ${id}`
+            return res.status(400).json({
+                "message": `Vancancy not found. Id: ${id}`
             });
         }
 
@@ -153,7 +156,7 @@ const remove = async (req: Request, res: Response) => {
         });
 
         return res.status(200).json({
-            message: `Vancancy deleted with success! Id: ${id}`
+            "message": `Vancancy deleted with success! Id: ${id}`
         });
     } catch (error: any) {
         Logger.error(error.message);
@@ -166,8 +169,8 @@ const applyVaga = async (req: Request, res: Response) => {
         const vancancyId = req.params.id;
 
         if (await vancancyNotExist(vancancyId)) {
-            return res.status(404).json({
-                messageError: `Vancancy not found. Id: ${vancancyId}`
+            return res.status(400).json({
+                "message": `Vancancy not found. Id: ${vancancyId}`
             });
         }
 

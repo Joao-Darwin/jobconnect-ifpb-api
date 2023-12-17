@@ -7,21 +7,26 @@ import { createHashPassword } from "../../util/bcrypt";
 
 interface IDiscenteWithPassword extends IDiscente {
     password: string;
-}
+};
 
 const create = async (req: Request, res: Response) => {
     try {
-        const discente: IDiscenteWithPassword = req.body;
+        const discenteData: IDiscenteWithPassword = req.body;
+        const avatarPath = req?.file?.path ?? "";
 
-        discente.password = await createHashPassword(discente.password);
+        discenteData.password = await createHashPassword(discenteData.password);
 
         const discenteCreated: IDiscenteDTO = await Discente.create({
-            data: discente,
+            data: {
+                ...discenteData,
+                avatar: avatarPath
+            },
             select: {
                 id: true,
                 matricula: true,
                 email: true,
                 curso: true,
+                avatar: true,
                 created_at: true,
                 updated_at: true,
             }
@@ -87,7 +92,9 @@ const findVagasByDiscente = async (req: Request, res: Response) => {
         const studentId = req.params.id;
 
         if (await discenteNotExist(studentId)) {
-            return res.status(404).json(`Student not found. Id: ${studentId}`);
+            return res.status(404).json({
+                "message": `Student not found. Id: ${studentId}`
+            });
         }
 
         const vagas = await Discente.findFirst({
@@ -124,7 +131,9 @@ const update = async (req: Request, res: Response) => {
         const id = req.params.id;
 
         if (await discenteNotExist(id)) {
-            return res.status(404).json(`Student not found. Id: ${id}`);
+            return res.status(400).json({
+                "message": `Student not found. Id: ${id}`
+            });
         }
 
         const discenteToUpdate: IDiscente = req.body;
@@ -159,9 +168,7 @@ const update = async (req: Request, res: Response) => {
 const discenteNotExist = async (id: string): Promise<boolean> => {
     const discenteToUpdate = await Discente.findFirst({ where: { id: id } });
 
-    const exist = discenteToUpdate ? false : true;
-
-    return exist;
+    return discenteToUpdate ? false : true;
 }
 
 const remove = async (req: Request, res: Response) => {
@@ -169,12 +176,16 @@ const remove = async (req: Request, res: Response) => {
         const id = req.params.id;
 
         if (await discenteNotExist(id)) {
-            return res.status(404).json(`Student not found. Id: ${id}`);
+            return res.status(400).json({
+                "message": `Student not found. Id: ${id}`
+            });
         }
 
         await Discente.delete({ where: { id: id } });
 
-        res.json(`Student removed success! Id: ${id}`);
+        res.json({
+            "message": `Student removed success! Id: ${id}`
+        });
     } catch (error: any) {
         Logger.error(error.message);
         res.status(500).json(error.message);

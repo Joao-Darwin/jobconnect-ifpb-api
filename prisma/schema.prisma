@@ -13,7 +13,7 @@ datasource db {
 model Instituicao {
   id         String     @id @default(uuid())
   cnpj       String     @unique
-  email      String
+  email      String     @unique
   password   String
   nome       String
   created_at DateTime   @default(now())
@@ -31,7 +31,7 @@ model Discente {
   created_at    DateTime     @default(now())
   updated_at    DateTime     @updatedAt
   avatar        String
-  Instituicao   Instituicao? @relation(fields: [instituicaoId], references: [id])
+  Instituicao   Instituicao? @relation(fields: [instituicaoId], references: [id], onDelete: Cascade)
   instituicaoId String
   vagas         Vaga[]
 }
@@ -44,7 +44,7 @@ model Vaga {
   created_at         DateTime   @default(now())
   updated_at         DateTime   @updatedAt
   discentes          Discente[]
-  empresa            Empresa?   @relation(fields: [empresaId], references: [id])
+  empresa            Empresa?   @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   empresaId          String
 }
 
