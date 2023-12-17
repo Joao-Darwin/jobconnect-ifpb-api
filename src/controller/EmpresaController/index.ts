@@ -29,7 +29,6 @@ const create = async (req: Request, res: Response) => {
                 nome: true,
                 email: true,
                 telefone: true,
-                image: true,
                 latitude: true,
                 longitude: true
             }

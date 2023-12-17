@@ -4,6 +4,7 @@ import IDiscente from "../../interfaces/Discente/IDiscente";
 import IDiscenteDTO from "../../interfaces/Discente/DTOs/IDiscenteDTO";
 import Discente from "../../model/Discente";
 import { createHashPassword } from "../../util/bcrypt";
+import { Multer } from "multer";
 
 interface IDiscenteWithPassword extends IDiscente {
     password: string;
@@ -12,21 +13,22 @@ interface IDiscenteWithPassword extends IDiscente {
 const create = async (req: Request, res: Response) => {
     try {
         const discenteData: IDiscenteWithPassword = req.body;
-        const avatarPath = req?.file?.path ?? "";
+        const images: any = req?.files;
+        const avatarPath = images.avatar[0].path, curriculoPath = images.curriculo[0].path;
 
         discenteData.password = await createHashPassword(discenteData.password);
 
         const discenteCreated: IDiscenteDTO = await Discente.create({
             data: {
                 ...discenteData,
-                avatar: avatarPath
+                avatar: avatarPath,
+                curriculo: curriculoPath,
             },
             select: {
                 id: true,
                 matricula: true,
                 email: true,
                 curso: true,
-                avatar: true,
                 created_at: true,
                 updated_at: true,
             }

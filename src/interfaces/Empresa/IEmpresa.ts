@@ -3,7 +3,6 @@ interface IEmpresa {
     nome: string,
     email: string,
     telefone: string,
-    image: string,
     latitude: number,
     longitude: number
 }

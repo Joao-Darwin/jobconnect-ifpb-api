@@ -31,6 +31,7 @@ model Discente {
   created_at    DateTime     @default(now())
   updated_at    DateTime     @updatedAt
   avatar        String
+  curriculo     String
   Instituicao   Instituicao? @relation(fields: [instituicaoId], references: [id], onDelete: Cascade)
   instituicaoId String
   vagas         Vaga[]
@@ -49,16 +50,16 @@ model Vaga {
 }
 
 model Empresa {
-  id           String         @id @default(uuid())
-  cnpj         String         @unique
-  nome         String
-  email        String         @unique
-  password     String
-  telefone     String
-  image        String
-  latitude     Float
-  longitude    Float
-  created_at   DateTime       @default(now())
-  updated_at   DateTime       @updatedAt
-  vagas        Vaga[]
+  id         String   @id @default(uuid())
+  cnpj       String   @unique
+  nome       String
+  email      String   @unique
+  password   String
+  telefone   String
+  image      String
+  latitude   Float
+  longitude  Float
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  vagas      Vaga[]
 }

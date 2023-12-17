@@ -4,6 +4,7 @@ interface IDiscente {
     email: string;
     curso: string;
     avatar: string;
+    curriculo: string;
     instituicaoId: string;
 }
 
