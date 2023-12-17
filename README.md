@@ -48,7 +48,7 @@ cd JobConnectIfpbApi/
 ```
 Passo 03:
 ```
-cp ./env.example ./.env
+cp ./.env.example ./.env
 ```
 Passo 04:
 ```
