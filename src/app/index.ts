@@ -4,6 +4,7 @@ import instituicaoRoutes from "../router/Instituicao";
 import discenteRoutes from "../router/Discente";
 import empresaRoutes from "../router/Empresa";
 import vagaRoutes from "../router/Vaga";
+import authenticationRoutes from "../router/Authentication";
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(cors());
 
 const basePathUrlApiV1 = "/api/v1";
 
+app.use(`${basePathUrlApiV1}`, authenticationRoutes);
 app.use(`${basePathUrlApiV1}/institutions`, instituicaoRoutes);
 app.use(`${basePathUrlApiV1}/students`, discenteRoutes);
 app.use(`${basePathUrlApiV1}/companies`, empresaRoutes);
