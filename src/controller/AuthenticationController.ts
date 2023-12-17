@@ -9,9 +9,8 @@ import { compareHashWithTextPassword } from "../util/bcrypt";
 const authentication = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
-        let user;
 
-        user = await verifyUserExist(email);
+        const user = await verifyUserExist(email);
 
         if (!user) {
             return res.status(403).send({
