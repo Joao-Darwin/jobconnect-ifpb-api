@@ -7,16 +7,22 @@ import { createHashPassword } from "../../util/bcrypt";
 
 interface IEmpresaWithPassword extends IEmpresa {
     password: string
-}
+};
 
 const create = async (req: Request, res: Response) => {
     try {
         const empresa: IEmpresaWithPassword = req.body;
+        const imagePath = req?.file?.path ?? "";
 
         empresa.password = await createHashPassword(empresa.password);
 
         const empresaCreated: IEmpresa = await Empresa.create({
-            data: empresa,
+            data: {
+                ...empresa,
+                image: imagePath,
+                latitude: typeof(empresa.latitude) == "string" ? parseInt(empresa.latitude) : empresa.latitude,
+                longitude: typeof(empresa.longitude) == "string" ? parseInt(empresa.longitude) : empresa.longitude
+            },
             select: {
                 id: true,
                 cnpj: true,
