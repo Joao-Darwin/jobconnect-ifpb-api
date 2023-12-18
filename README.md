@@ -14,7 +14,7 @@ O objetivo geral desta pesquisa é desenvolver uma API para Divulgação de Est�
 
 Ao final do projeto, almejamos disponibilizar uma ferramenta tecnológica que contribua para o sucesso profissional de toda a comunidade acadêmica do IFPB e fortaleça a relação entre a instituição e o mercado de trabalho.
 
-## Tecnologias utilizadas
+## Tecnologias Utilizadas
 ### API
   
   ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
