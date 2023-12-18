@@ -28,6 +28,8 @@ const create = async (req: Request, res: Response) => {
                 id: true,
                 matricula: true,
                 email: true,
+                avatar: true,
+                curriculo: true,
                 curso: true,
                 created_at: true,
                 updated_at: true,
