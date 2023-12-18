@@ -30,8 +30,8 @@ const create = async (req: Request, res: Response) => {
             data: {
                 ...empresa,
                 image: imagePath,
-                latitude: typeof(empresa.latitude) == "string" ? parseInt(empresa.latitude) : empresa.latitude,
-                longitude: typeof(empresa.longitude) == "string" ? parseInt(empresa.longitude) : empresa.longitude
+                latitude: typeof(empresa.latitude) == "string" ? parseFloat(empresa.latitude) : empresa.latitude,
+                longitude: typeof(empresa.longitude) == "string" ? parseFloat(empresa.longitude) : empresa.longitude
             },
             select: {
                 id: true,
