@@ -13,7 +13,6 @@ interface IEmpresaWithPassword extends IEmpresa {
 const create = async (req: Request, res: Response) => {
     try {
         const empresa: IEmpresaWithPassword = req.body;
-        const imagePath = req?.file?.path ?? "";
 
         const resultValidation = EmailSchema.safeParse(empresa.email);
 
@@ -22,6 +21,8 @@ const create = async (req: Request, res: Response) => {
                 "message": "the field 'email' is invalid"
             });
         }
+        
+        const imagePath = req?.file?.path ?? "";
 
         empresa.password = await createHashPassword(empresa.password);
 

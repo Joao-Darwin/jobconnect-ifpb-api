@@ -14,8 +14,6 @@ interface IDiscenteWithPassword extends IDiscente {
 const create = async (req: Request, res: Response) => {
     try {
         const discenteData: IDiscenteWithPassword = req.body;
-        const images: any = req?.files;
-        const avatarPath = images.avatar[0].path, curriculoPath = images.curriculo[0].path;
 
         const resultValidation = EmailSchema.safeParse(discenteData.email);
 
@@ -24,6 +22,9 @@ const create = async (req: Request, res: Response) => {
                 "message": "the field 'email' is invalid"
             });
         }
+        
+        const images: any = req?.files;
+        const avatarPath = images.avatar[0].path, curriculoPath = images.curriculo[0].path;
 
         discenteData.password = await createHashPassword(discenteData.password);
 
