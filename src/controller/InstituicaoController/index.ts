@@ -5,6 +5,7 @@ import IInstituicaoWithDates from "../../interfaces/Instituicao/IInstituicaoWith
 import Instituicao from "../../model/Instituicao";
 import { createHashPassword } from "../../util/bcrypt";
 import IInstituicaoDTO from "../../interfaces/Instituicao/DTOs/IInstituicaoDTO";
+import EmailSchema from "../../util/validations/formatEmailValidation";
 
 interface IInstituicaoWithPassword extends IInstituicao {
     password: string
@@ -13,6 +14,14 @@ interface IInstituicaoWithPassword extends IInstituicao {
 const create = async (req: Request, res: Response) => {
     try {
         const instituicao: IInstituicaoWithPassword = req.body;
+
+        const resultValidation = EmailSchema.safeParse(instituicao.email);
+
+        if (!resultValidation.success) {
+            return res.status(400).send({
+                "message": "the field 'email' is invalid"
+            });
+        }
 
         instituicao.password = await createHashPassword(instituicao.password);
 

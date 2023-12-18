@@ -4,6 +4,7 @@ import IEmpresaDTO from "../../interfaces/Empresa/DTOs/IEmpresaDTO";
 import IEmpresa from "../../interfaces/Empresa/IEmpresa";
 import Empresa from "../../model/Empresa";
 import { createHashPassword } from "../../util/bcrypt";
+import EmailSchema from "../../util/validations/formatEmailValidation";
 
 interface IEmpresaWithPassword extends IEmpresa {
     password: string
@@ -13,6 +14,14 @@ const create = async (req: Request, res: Response) => {
     try {
         const empresa: IEmpresaWithPassword = req.body;
         const imagePath = req?.file?.path ?? "";
+
+        const resultValidation = EmailSchema.safeParse(empresa.email);
+
+        if (!resultValidation.success) {
+            return res.status(400).send({
+                "message": "the field 'email' is invalid"
+            });
+        }
 
         empresa.password = await createHashPassword(empresa.password);
 

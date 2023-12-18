@@ -5,6 +5,7 @@ import IDiscenteDTO from "../../interfaces/Discente/DTOs/IDiscenteDTO";
 import Discente from "../../model/Discente";
 import { createHashPassword } from "../../util/bcrypt";
 import { Multer } from "multer";
+import EmailSchema from "../../util/validations/formatEmailValidation";
 
 interface IDiscenteWithPassword extends IDiscente {
     password: string;
@@ -15,6 +16,14 @@ const create = async (req: Request, res: Response) => {
         const discenteData: IDiscenteWithPassword = req.body;
         const images: any = req?.files;
         const avatarPath = images.avatar[0].path, curriculoPath = images.curriculo[0].path;
+
+        const resultValidation = EmailSchema.safeParse(discenteData.email);
+
+        if (!resultValidation.success) {
+            return res.status(400).send({
+                "message": "the field 'email' is invalid"
+            });
+        }
 
         discenteData.password = await createHashPassword(discenteData.password);
 
