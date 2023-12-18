@@ -72,6 +72,7 @@ const findById = async (req: Request, res: Response) => {
                 email: true,
                 curso: true,
                 avatar: true,
+                curriculo: true,
                 created_at: true,
                 updated_at: true,
                 Instituicao: {
@@ -131,6 +132,8 @@ const findVagasByDiscente = async (req: Request, res: Response) => {
 const update = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
+        const images: any = req?.files;
+        const avatarPath = images.avatar[0].path, curriculoPath = images.curriculo[0].path;
 
         if (await discenteNotExist(id)) {
             return res.status(400).json({
@@ -139,6 +142,8 @@ const update = async (req: Request, res: Response) => {
         }
 
         const discenteToUpdate: IDiscente = req.body;
+        if(avatarPath) discenteToUpdate.avatar = avatarPath;
+        if(curriculoPath) discenteToUpdate.curriculo = curriculoPath;
 
         const discenteUpdated = await Discente.update({
             where: { id: id },
@@ -150,6 +155,7 @@ const update = async (req: Request, res: Response) => {
                 email: true,
                 curso: true,
                 avatar: true,
+                curriculo: true,
                 created_at: true,
                 updated_at: true,
                 Instituicao: {

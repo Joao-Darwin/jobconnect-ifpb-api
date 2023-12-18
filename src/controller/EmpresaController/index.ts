@@ -28,6 +28,7 @@ const create = async (req: Request, res: Response) => {
                 cnpj: true,
                 nome: true,
                 email: true,
+                image: true,
                 telefone: true,
                 latitude: true,
                 longitude: true
@@ -138,6 +139,7 @@ const findVagasByEmpresa = async (req: Request, res: Response) => {
 const update = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
+        const imagePath = req?.file?.path ?? null;
 
         if (await companyNotExist(id)) {
             return res.status(400).json({
@@ -145,7 +147,8 @@ const update = async (req: Request, res: Response) => {
             });
         }
 
-        const companyToUpdate: IEmpresa = req.body;
+        let companyToUpdate: IEmpresa = req.body;
+        if(imagePath) companyToUpdate.image = imagePath;
 
         const companyUpdated = await Empresa.update({
             where: {

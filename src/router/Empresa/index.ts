@@ -12,7 +12,7 @@ empresaRoutes.post("/save", upload.single("image"), EmpresaController.create);
 empresaRoutes.get("/", AuthMiddleware, EmpresaController.findAll);
 empresaRoutes.get("/:id", AuthMiddleware, EmpresaController.findById);
 empresaRoutes.get("/:id/vancancies", AuthMiddleware, EmpresaController.findVagasByEmpresa);
-empresaRoutes.put("/:id", AuthMiddleware, EmpresaController.update);
+empresaRoutes.put("/:id", AuthMiddleware, upload.single("image"), EmpresaController.update);
 empresaRoutes.delete("/:id", AuthMiddleware, EmpresaController.remove);
 
 export default empresaRoutes;
