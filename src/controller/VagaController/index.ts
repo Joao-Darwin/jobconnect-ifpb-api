@@ -174,7 +174,7 @@ const applyVaga = async (req: Request, res: Response) => {
             });
         }
 
-        const {discenteId} = req.body
+        const {userId} = req
 
         await Vagas.update({
             where: {
@@ -183,14 +183,14 @@ const applyVaga = async (req: Request, res: Response) => {
             data: {
                 discentes: {
                     connect: {
-                        id: discenteId
+                        id: userId
                     }
                 }
             }
         });
 
         return res.status(200).json({
-            message: `Apply on vaga with success! VancancyId: ${vancancyId}, StudentId: ${discenteId}`
+            message: `Apply on vaga with success! VancancyId: ${vancancyId}, StudentId: ${userId}`
         })
     } catch (error: any) {
         Logger.error(error.message);
