@@ -4,6 +4,7 @@
   "description": "API para divulgação de estágios e empregos para egressos do Instituto Federal de Paraíba",
   "main": "server.ts",
   "scripts": {
+    "start": "tsx src/server.ts",
     "dev": "nodemon src/server.ts",
     "test": "jest",
     "testUnity": "npm t -- --testPathPattern=src/__tests__/unitary",
