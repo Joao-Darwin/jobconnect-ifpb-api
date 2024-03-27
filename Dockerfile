@@ -1,4 +1,4 @@
-FROM node:16.20.2
+FROM node:20.11.1
 
 WORKDIR /backend
 
@@ -12,6 +12,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD [ "npx", "prisma", "migrate", "up" ]
-
-CMD [ "npm", "run", "start" ]
+CMD ["bash", "-c", "sleep 10 && npx prisma migrate dev && npm run start"]
