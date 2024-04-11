@@ -5,7 +5,7 @@
 
 <div align="center" id="badges">
 
-  ![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=DOING&color=GREEN&style=for-the-badge)
+  ![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=FINISHED&color=GREEN&style=for-the-badge)
   [![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/Joao-Darwin/jobconnect-ifpb-api?style=for-the-badge&color=purple)](https://github.com/Joao-Darwin/jobconnect-ifpb-api/issues?q=is%3Aissue+is%3Aclosed)
 </div>
 
